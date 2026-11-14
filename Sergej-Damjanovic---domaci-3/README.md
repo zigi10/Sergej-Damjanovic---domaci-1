@@ -18,38 +18,11 @@ Cilj ovog zadatka je bio da se implementira jednostavan Python okvir za izvođen
 - **Template Method** (`experiment.py`) – bazna klasa `Experiment` definiše skelet algoritma (priprema, treniranje, evaluacija), dok podklase poput `ClassificationExperiment` mogu dopuniti specifične korake.
 - **Decorator** (`decorators.py`) – `TimeDecorator` proširuje funkcionalnost eksperimenta mjerenjem vremena izvršavanja bez direktnog mijenjanja njegove klase.
 
-## Dijagram klasa (Mermaid)
+## Dijagram klasa
 
-```mermaid
-classDiagram
-    class ModelFactory
-    class MetricStrategy
-    class AccuracyStrategy
-    class F1Strategy
-    class MSEStrategy
-    class MetricContext
-    class TrainingObserver
-    class ConsoleObserver
-    class HistoryObserver
-    class TrainingSubject
-    class Experiment
-    class ClassificationExperiment
-    class RegressionExperiment
-    class TimeDecorator
+![Dijagram klasa](diagram.png)
 
-    MetricStrategy <|-- AccuracyStrategy
-    MetricStrategy <|-- F1Strategy
-    MetricStrategy <|-- MSEStrategy
-    MetricContext --> MetricStrategy
-    TrainingObserver <|-- ConsoleObserver
-    TrainingObserver <|-- HistoryObserver
-    TrainingSubject --> TrainingObserver
-    Experiment <|-- ClassificationExperiment
-    Experiment <|-- RegressionExperiment
-    TimeDecorator --> Experiment
-    ClassificationExperiment ..> ModelFactory
-
-## Pokretanje
+#Pokretanje
 
 Za pokretanje projekta, u terminalu ući u folder `Sergej-Damjanovic---domaci-3` i izvršiti:
 
