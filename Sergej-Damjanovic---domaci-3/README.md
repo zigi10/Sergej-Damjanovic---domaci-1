@@ -18,29 +18,36 @@ Cilj ovog zadatka je bio da se implementira jednostavan Python okvir za izvođen
 - **Template Method** (`experiment.py`) – bazna klasa `Experiment` definiše skelet algoritma (priprema, treniranje, evaluacija), dok podklase poput `ClassificationExperiment` mogu dopuniti specifične korake.
 - **Decorator** (`decorators.py`) – `TimeDecorator` proširuje funkcionalnost eksperimenta mjerenjem vremena izvršavanja bez direktnog mijenjanja njegove klase.
 
-## Dijagram klasa
+## Dijagram klasa (Mermaid)
 
-**ModelFactory** → kreira modele (logistic, knn, decision_tree)
+```mermaid
+classDiagram
+    class ModelFactory
+    class MetricStrategy
+    class AccuracyStrategy
+    class F1Strategy
+    class MSEStrategy
+    class MetricContext
+    class TrainingObserver
+    class ConsoleObserver
+    class HistoryObserver
+    class TrainingSubject
+    class Experiment
+    class ClassificationExperiment
+    class RegressionExperiment
+    class TimeDecorator
 
-**MetricStrategy** (abstract)
-  ├── AccuracyStrategy
-  ├── F1Strategy
-  ├── PrecisionStrategy
-  └── MSEStrategy
-
-**MetricContext** → koristi MetricStrategy
-
-**TrainingObserver** (abstract)
-  ├── ConsoleObserver
-  └── HistoryObserver
-
-**TrainingSubject** → šalje notifikacije TrainingObserver-ima
-
-**Experiment** (abstract)
-  ├── ClassificationExperiment
-  └── RegressionExperiment
-
-**TimeDecorator** → obavija Experiment (mjeri vrijeme)
+    MetricStrategy <|-- AccuracyStrategy
+    MetricStrategy <|-- F1Strategy
+    MetricStrategy <|-- MSEStrategy
+    MetricContext --> MetricStrategy
+    TrainingObserver <|-- ConsoleObserver
+    TrainingObserver <|-- HistoryObserver
+    TrainingSubject --> TrainingObserver
+    Experiment <|-- ClassificationExperiment
+    Experiment <|-- RegressionExperiment
+    TimeDecorator --> Experiment
+    ClassificationExperiment ..> ModelFactory
 
 ## Pokretanje
 
