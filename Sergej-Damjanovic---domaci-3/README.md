@@ -49,3 +49,6 @@ classDiagram
     Experiment <|-- RegressionExperiment
     TimeDecorator --> Experiment
     ClassificationExperiment ..> ModelFactory
+
+##Pokretanje
+Za pokretanje projekta, u terminalu ući u folder Sergej-Damjanovic---domaci-3 i izvršiti:
