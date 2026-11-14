@@ -20,50 +20,27 @@ Cilj ovog zadatka je bio da se implementira jednostavan Python okvir za izvođen
 
 ## Dijagram klasa
 
-+------------------+ +--------------------+
-| ModelFactory | | MetricStrategy |<<abstract>>
-|------------------| |--------------------|
-|+create_model() | |+compute() |
-|+list_models() | |+name() |
-+------------------+ +---------+----------+
-|
-+-----------------------+-----------------------+
-| | |
-v v v
-+----------------+ +----------------+ +----------------+
-|AccuracyStrategy| | F1Strategy | | MSEStrategy |
-+----------------+ +----------------+ +----------------+
-+-------------------+ +--------------------+<<abstract>>
-| TrainingSubject |------->| TrainingObserver |
-|-------------------| |--------------------|
-|+attach() | |+on_train_start() |
-|+notify_start() | |+on_epoch_end() |
-|+notify_end() | |+on_train_end() |
-+-------------------+ +---------+----------+
-|
-+---------+---------+
-| |
-v v
-+-----------------+ +-----------------+
-|ConsoleObserver | |HistoryObserver |
-+-----------------+ +-----------------+
-+------------------+ +-------------------+
-| Experiment |<--------| TimeDecorator |
-|------------------| |-------------------|
-|<<abstract>> | |+run() |
-|+run() | |+execution_time |
-|+prepare_data() | +-------------------+
-|+train()* |
-|+evaluate() |
-+--------+---------+
-|
-+----+----+
-| |
-v v
-+---------+ +----------------+
-|Classif. | |Regression |
-|Experiment| |Experiment |
-+----------+ +----------------+
+**ModelFactory** → kreira modele (logistic, knn, decision_tree)
+
+**MetricStrategy** (abstract)
+  ├── AccuracyStrategy
+  ├── F1Strategy
+  ├── PrecisionStrategy
+  └── MSEStrategy
+
+**MetricContext** → koristi MetricStrategy
+
+**TrainingObserver** (abstract)
+  ├── ConsoleObserver
+  └── HistoryObserver
+
+**TrainingSubject** → šalje notifikacije TrainingObserver-ima
+
+**Experiment** (abstract)
+  ├── ClassificationExperiment
+  └── RegressionExperiment
+
+**TimeDecorator** → obavija Experiment (mjeri vrijeme)
 
 ## Pokretanje
 
