@@ -58,9 +58,12 @@ Za pokretanje projekta, u terminalu ući u folder `Sergej-Damjanovic---domaci-3`
 ```bash
 pip install -r requirements.txt
 python main.py
+```
 
 Testovi se pokreću komandom:
+```bash
 pytest tests/ -v
+```
 
 Izlaz iz programa prikazuje faze treniranja, izmjereno vrijeme i tačnost modela. Korišten je random_state=42 kako bi podjela podataka bila deterministička.
 
