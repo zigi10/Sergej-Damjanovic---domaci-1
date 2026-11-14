@@ -18,93 +18,52 @@ Cilj ovog zadatka je bio da se implementira jednostavan Python okvir za izvođen
 - **Template Method** (`experiment.py`) – bazna klasa `Experiment` definiše skelet algoritma (priprema, treniranje, evaluacija), dok podklase poput `ClassificationExperiment` mogu dopuniti specifične korake.
 - **Decorator** (`decorators.py`) – `TimeDecorator` proširuje funkcionalnost eksperimenta mjerenjem vremena izvršavanja bez direktnog mijenjanja njegove klase.
 
-## Dijagram klasa (Mermaid)
+## Dijagram klasa
 
-```mermaid
-classDiagram
-    class ModelFactory {
-        +create_model
-        +list_models
-    }
-    class MetricStrategy {
-        <<abstract>>
-        +compute
-        +name
-    }
-    class AccuracyStrategy {
-        +compute
-        +name
-    }
-    class F1Strategy {
-        +compute
-        +name
-    }
-    class PrecisionStrategy {
-        +compute
-        +name
-    }
-    class MSEStrategy {
-        +compute
-        +name
-    }
-    class MetricContext {
-        +set_strategy
-        +evaluate
-    }
-    class TrainingObserver {
-        <<abstract>>
-        +on_train_start
-        +on_epoch_end
-        +on_train_end
-    }
-    class ConsoleObserver {
-        +on_train_start
-        +on_epoch_end
-        +on_train_end
-    }
-    class HistoryObserver {
-        +on_train_start
-        +on_epoch_end
-        +on_train_end
-        +get_history
-    }
-    class TrainingSubject {
-        +attach
-        +detach
-        +notify_train_start
-        +notify_epoch_end
-        +notify_train_end
-    }
-    class Experiment {
-        <<abstract>>
-        +run
-        +prepare_data
-        +create_model
-        +train
-        +evaluate
-        +post_process
-    }
-    class ClassificationExperiment {
-        +__init__
-    }
-    class RegressionExperiment {
-        +__init__
-    }
-    class TimeDecorator {
-        +run
-        +execution_time
-    }
-    MetricStrategy <|-- AccuracyStrategy
-    MetricStrategy <|-- F1Strategy
-    MetricStrategy <|-- PrecisionStrategy
-    MetricStrategy <|-- MSEStrategy
-    MetricContext --> MetricStrategy
-    TrainingObserver <|-- ConsoleObserver
-    TrainingObserver <|-- HistoryObserver
-    TrainingSubject --> TrainingObserver
-    Experiment <|-- ClassificationExperiment
-    Experiment <|-- RegressionExperiment
-    TimeDecorator --> Experiment
++------------------+ +--------------------+
+| ModelFactory | | MetricStrategy |<<abstract>>
+|------------------| |--------------------|
+|+create_model() | |+compute() |
+|+list_models() | |+name() |
++------------------+ +---------+----------+
+|
++-----------------------+-----------------------+
+| | |
+v v v
++----------------+ +----------------+ +----------------+
+|AccuracyStrategy| | F1Strategy | | MSEStrategy |
++----------------+ +----------------+ +----------------+
++-------------------+ +--------------------+<<abstract>>
+| TrainingSubject |------->| TrainingObserver |
+|-------------------| |--------------------|
+|+attach() | |+on_train_start() |
+|+notify_start() | |+on_epoch_end() |
+|+notify_end() | |+on_train_end() |
++-------------------+ +---------+----------+
+|
++---------+---------+
+| |
+v v
++-----------------+ +-----------------+
+|ConsoleObserver | |HistoryObserver |
++-----------------+ +-----------------+
++------------------+ +-------------------+
+| Experiment |<--------| TimeDecorator |
+|------------------| |-------------------|
+|<<abstract>> | |+run() |
+|+run() | |+execution_time |
+|+prepare_data() | +-------------------+
+|+train()* |
+|+evaluate() |
++--------+---------+
+|
++----+----+
+| |
+v v
++---------+ +----------------+
+|Classif. | |Regression |
+|Experiment| |Experiment |
++----------+ +----------------+
 
 ## Pokretanje
 
