@@ -49,6 +49,26 @@ classDiagram
     Experiment <|-- RegressionExperiment
     TimeDecorator --> Experiment
     ClassificationExperiment ..> ModelFactory
+```
 
-##Pokretanje
-Za pokretanje projekta, u terminalu ući u folder Sergej-Damjanovic---domaci-3 i izvršiti:
+## Pokretanje
+
+Za pokretanje projekta, u terminalu ući u folder `Sergej-Damjanovic---domaci-3` i izvršiti:
+
+```bash
+pip install -r requirements.txt
+python main.py
+
+Testovi se pokreću komandom:
+pytest tests/ -v
+
+Izlaz iz programa prikazuje faze treniranja, izmjereno vrijeme i tačnost modela. Korišten je random_state=42 kako bi podjela podataka bila deterministička.
+
+
+## Kako sam koristio AI
+
+AI alat je korišćen kao asistent pri strukturiranju projekta i generisanju početnog koda za implementaciju šablona. Tražio sam da se kod drži principa obrađenih na predavanjima.
+
+Kod Strategy šablona, razmatrao sam opciju korišćenja rječnika naspram hijerarhije klasa. Odlučio sam se za klase jer to bolje demonstrira polimorfizam i olakšava dodavanje novih metrika u budućnosti.
+
+Iako su testovi i osnovna struktura generisani uz pomoć AI-a, svaki dio koda je ručno analiziran, testiran i pokrenut lokalno kako bi se verifikovala ispravnost. AI je poslužio kao ubrzanje, ali finalna logika i provjera su urađeni ručno.
