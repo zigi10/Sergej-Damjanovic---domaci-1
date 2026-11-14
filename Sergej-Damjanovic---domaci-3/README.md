@@ -22,32 +22,89 @@ Cilj ovog zadatka je bio da se implementira jednostavan Python okvir za izvođen
 
 ```mermaid
 classDiagram
-    class Experiment {
-        +subject
-        +run()
-        +prepare_data()
-        +train()*
-        +evaluate()
-    }
-    class ClassificationExperiment {
-        +model_name
-        +train()
-    }
-    class TrainingSubject {
-        +observers
-        +attach()
-        +notify()
-    }
     class ModelFactory {
-        +create_model(name)
+        +create_model
+        +list_models
     }
     class MetricStrategy {
-        +compute(y_true, y_pred)
+        <<abstract>>
+        +compute
+        +name
     }
+    class AccuracyStrategy {
+        +compute
+        +name
+    }
+    class F1Strategy {
+        +compute
+        +name
+    }
+    class PrecisionStrategy {
+        +compute
+        +name
+    }
+    class MSEStrategy {
+        +compute
+        +name
+    }
+    class MetricContext {
+        +set_strategy
+        +evaluate
+    }
+    class TrainingObserver {
+        <<abstract>>
+        +on_train_start
+        +on_epoch_end
+        +on_train_end
+    }
+    class ConsoleObserver {
+        +on_train_start
+        +on_epoch_end
+        +on_train_end
+    }
+    class HistoryObserver {
+        +on_train_start
+        +on_epoch_end
+        +on_train_end
+        +get_history
+    }
+    class TrainingSubject {
+        +attach
+        +detach
+        +notify_train_start
+        +notify_epoch_end
+        +notify_train_end
+    }
+    class Experiment {
+        <<abstract>>
+        +run
+        +prepare_data
+        +create_model
+        +train
+        +evaluate
+        +post_process
+    }
+    class ClassificationExperiment {
+        +__init__
+    }
+    class RegressionExperiment {
+        +__init__
+    }
+    class TimeDecorator {
+        +run
+        +execution_time
+    }
+    MetricStrategy <|-- AccuracyStrategy
+    MetricStrategy <|-- F1Strategy
+    MetricStrategy <|-- PrecisionStrategy
+    MetricStrategy <|-- MSEStrategy
+    MetricContext --> MetricStrategy
+    TrainingObserver <|-- ConsoleObserver
+    TrainingObserver <|-- HistoryObserver
+    TrainingSubject --> TrainingObserver
     Experiment <|-- ClassificationExperiment
-    Experiment --> TrainingSubject
-    ClassificationExperiment ..> ModelFactory
-    Experiment ..> MetricStrategy
+    Experiment <|-- RegressionExperiment
+    TimeDecorator --> Experiment
 
 ## Pokretanje
 
